@@ -1,13 +1,27 @@
 import Button from 'react-bootstrap/Button'
 import Form from 'react-bootstrap/Form'
+import { createOrder } from '../firebase/db'
+import { useContext } from 'react'
+import { CartContext } from '../context/cartContext'
+import { serverTimestamp } from 'firebase/firestore'
 
 function CheckoutForm () {
+  const { getTotal, cart } = useContext(CartContext)
+
   const handleSubmit = e => {
     e.preventDefault()
 
     const form = e.target
     const [email, name, phone] = form
-    console.log(email, name, phone)
+
+    const order = {
+      buyer: {name: name.value, email: email.value, phone: phone.value},
+      total: getTotal(),
+      items: cart,
+      time: serverTimestamp()
+    }
+
+    createOrder(order)
   }
 
   return (

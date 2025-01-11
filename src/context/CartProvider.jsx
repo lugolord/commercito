@@ -21,6 +21,8 @@ function CartProvider ({ children }) {
     return totalCompra
   }
 
+  const emptyCart = () => setCart([])
+
   return (
     <CartContext.Provider value={{ cart, addToCart, getQuantity, getTotal }}>
       {children}
